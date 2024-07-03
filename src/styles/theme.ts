@@ -8,4 +8,5 @@ export const theme = {
   notQuiteBlack: "#23272a",
   greyple: "#99aab5",
   darkNotBlack: "#2c2f33",
+  maxWidth: "1080px",
 };

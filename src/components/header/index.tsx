@@ -9,8 +9,8 @@ export default function Header() {
       <Container>
         <Brand>Taskord</Brand>
         {todosList.length > 0 && (
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-center text-neutral-200">
+          <div>
+            <span>
               Total - {todosList.length} | Pending - {pendingTasks.length}
             </span>
           </div>

@@ -1,12 +1,38 @@
 import React, { useState } from "react";
-import  { Todo, TodoContext } from "./todo-context";
+import { Todo, TodoContext } from "./todo-context";
 
 interface TodoProviderProps {
   children: React.ReactNode;
 }
 
 export default function TodoProvider({ children }: TodoProviderProps) {
-  const [todosList, setTodosList] = useState<Todo[]>([]);
+  const [todosList, setTodosList] = useState<Todo[]>([
+    {
+      task: "Fazer compras",
+      completed: false,
+      id: "1",
+    },
+    {
+      task: "Estudar TypeScript",
+      completed: true,
+      id: "2",
+    },
+    {
+      task: "Limpar o quarto",
+      completed: false,
+      id: "3",
+    },
+    {
+      task: "Preparar o jantar",
+      completed: true,
+      id: "4",
+    },
+    {
+      task: "Ir ao banco",
+      completed: false,
+      id: "5",
+    },
+  ]);
 
   const editTodo = (id: string, text: string) => {
     const updatedList = todosList.map((todo) => {

@@ -4,15 +4,18 @@ import { BrowserRouter } from "react-router-dom";
 import { GlobalStyles } from "./styles/global";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme";
+import TodoProvider from "./store/todo-provider";
 
 function App() {
   return (
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <Router />
-      </ThemeProvider>
-      <GlobalStyles />
-    </BrowserRouter>
+    <TodoProvider>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <Router />
+        </ThemeProvider>
+        <GlobalStyles />
+      </BrowserRouter>
+    </TodoProvider>
   );
 }
 
