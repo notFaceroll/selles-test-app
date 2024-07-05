@@ -8,7 +8,6 @@ export default function TaskList() {
 
   const completedTasks = todosList.filter((todo) => todo.completed);
 
-  console.log({ todosList })
   return (
     <Container>
       <List>
@@ -21,7 +20,7 @@ export default function TaskList() {
           aria-label="Clear All Completed Tasks"
           onClick={clearCompleted}
         >
-          Clear Completed Tasks
+          Limpar todas as tarefas
         </ClearBtn>
       )}
     </Container>

@@ -8,27 +8,32 @@ interface TodoProviderProps {
 export default function TodoProvider({ children }: TodoProviderProps) {
   const [todosList, setTodosList] = useState<Todo[]>([
     {
-      task: "Fazer compras",
+      title: "Fazer compras",
+      description: "BLEGH",
       completed: false,
       id: "1",
     },
     {
-      task: "Estudar TypeScript",
+      title: "Estudar TypeScript",
+      description: "BLEGH",
       completed: true,
       id: "2",
     },
     {
-      task: "Limpar o quarto",
+      title: "Limpar o quarto",
+      description: "BLEGH",
       completed: false,
       id: "3",
     },
     {
-      task: "Preparar o jantar",
+      title: "Preparar o jantar",
+      description: "BLEGH",
       completed: true,
       id: "4",
     },
     {
-      task: "Ir ao banco",
+      title: "Ir ao banco",
+      description: "BLEGH",
       completed: false,
       id: "5",
     },
@@ -44,15 +49,19 @@ export default function TodoProvider({ children }: TodoProviderProps) {
     setTodosList(updatedList);
   };
 
-  const addTodo = (text: string) => {
-    setTodosList([
+  const addTodo = (title: string, description: string) => {
+    const updatedTodos = [
       ...todosList,
       {
-        task: text,
+        title,
+        description,
         completed: false,
         id: Math.random().toString(36).substring(2, 11),
       },
-    ]);
+    ]
+    setTodosList(updatedTodos);
+
+    localStorage.setItem('@todos', JSON.stringify(updatedTodos));
   };
 
   const deleteTodo = (id: string) => {

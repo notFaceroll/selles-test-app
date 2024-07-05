@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
 
 export interface Todo {
-  task: string;
+  title: string;
+  description: string;
   completed: boolean;
   id: string;
 }
 
 export type TodoContextType = {
   todosList: Todo[];
-  addTodo: (task: string) => void;
+  addTodo: (task: string, description: string) => void;
   deleteTodo: (id: string) => void;
   toggleTodo: (id: string) => void;
   clearCompleted: () => void;

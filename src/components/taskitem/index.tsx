@@ -1,6 +1,6 @@
 import React from "react";
 import { useTodoContext, Todo } from "../../store/todo-context";
-import { Item } from "./styles";
+import { Item, ItemText } from "./styles";
 
 interface TodoProps {
   todo: Todo;
@@ -13,10 +13,17 @@ export const TaskItem = ({ todo }: TodoProps) => {
     <Item key={todo.id}>
       <div>
         <button onClick={() => toggleTodo(todo.id)}>
-          {/* TODO: Icones */}
-          {todo.completed ? <span>Completa</span> : <span>Pendente</span>}
+          {todo.completed ? (
+            <span>
+              <i className="fa-regular fa-circle-check"></i>
+            </span>
+          ) : (
+            <span>
+              <i className="fa-regular fa-clock"></i>
+            </span>
+          )}
         </button>
-        <span>{todo.task}</span>
+        <ItemText $isCompleted={todo.completed}>{todo.title}</ItemText>
       </div>
       <div>
         {/* TODO: navegar para página da tarefa */}
