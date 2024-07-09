@@ -7,27 +7,33 @@ interface TodoProviderProps {
 }
 
 export default function TodoProvider({ children }: TodoProviderProps) {
-  const [todosList, setTodosList] = useState<Todo[]>(() => {
-    const storedData = localStorage.getItem("@todos");
-    return storedData ? (JSON.parse(storedData) as Todo[]) : [];
-  });
+  const [todosList, setTodosList] = useState<Todo[]>([]);
 
   const fetchTodos = useCallback(async () => {
-    const data = await fetch("https://jsonplaceholder.typicode.com/todos");
-    const result: Todo[] = await data.json();
-    const todos = result.slice(0, 10);
-
-    setTodosList(todos);
-    storeTodos(todos);
+    try {
+      const response = await fetch("https://jsonplaceholder.typicode.com/todos");
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch todos");
+      }
+  
+      const result: Todo[] = await response.json();
+      const todos = result.slice(0, 10);
+  
+      setTodosList(todos);
+      storeTodos(todos);
+    } catch (error) {
+      console.error("Ocorreu um erro ao tentar buscar os todos:", error);
+    }
   }, []);
 
   useEffect(() => {
     const storedData = localStorage.getItem("@todos");
-    if (storedData) {
-      const todos = JSON.parse(storedData) as Todo[];
-      if (todos.length === 0) {
-        fetchTodos();
-      }
+  
+    if (!storedData || JSON.parse(storedData).length === 0) {
+      fetchTodos();
+    } else {
+      setTodosList(JSON.parse(storedData) as Todo[]);
     }
   }, [fetchTodos]);
 
