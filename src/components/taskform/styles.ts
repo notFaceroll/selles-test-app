@@ -1,18 +1,18 @@
 import styled from "styled-components";
 
-export const Container = styled.main`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  flex: 1;
+  align-items: center;
   max-width: ${(props) => props.theme.maxWidth};
   padding: 1rem;
   background-color: ${(props) => props.theme.darkGrey};
 `;
 
-export const Form = styled.form`
-  max-width: 768px;
-  height: 40vh;
+export const Form = styled.div`
+  width: clamp(275px, 100%, 600px);
+  height: 30vh;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -44,9 +44,28 @@ export const Form = styled.form`
     border-bottom-right-radius: 8px;
     background-color: rgb(239, 239, 239);
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
   }
+`;
+
+export const NewTaskBtn = styled.button`
+  box-sizing: border-box;
+  width: 100%;
+  height: 64px;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #eee;
+  border-radius: 8px;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0.8;
+  margin-top: 12px;
+  border: 2px dashed rgba(255, 255, 255, 0.4);
+  font-size: 1.125rem;
 `;
 
 export const CancelButton = styled.button`
@@ -69,7 +88,7 @@ export const CancelButton = styled.button`
 
 export const Input = styled.input`
   border-radius: 4px;
-  font-size: 22px;
+  font-size: 20px;
   padding: 10px 0px;
   box-shadow: none;
   border: none;
@@ -78,10 +97,13 @@ export const Input = styled.input`
   box-sizing: border-box;
   font-weight: bold;
   outline: none;
+  font-family: inherit;
+  font-style: italic;
 `;
 
 export const ConfirmButton = styled.button`
   text-align: center;
+  align-self: flex-end;
   border-radius: 4px;
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 2px;
@@ -93,6 +115,11 @@ export const ConfirmButton = styled.button`
   background-color: rgb(34, 34, 34);
   border: 2px solid rgb(34, 34, 34);
   display: inline-block;
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
 `;
 
 export const InputGroup = styled.div`

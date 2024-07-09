@@ -5,6 +5,6 @@ export const LayoutContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   background-color: ${(props) => props.theme.darkNotBlack};
 `;

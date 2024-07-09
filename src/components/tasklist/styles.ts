@@ -1,30 +1,36 @@
 import styled from "styled-components";
 
-export const Container = styled.main`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+
   flex: 1;
-  max-width: ${(props) => props.theme.maxWidth};
-  padding: 1rem;
-  background-color: ${(props) => props.theme.darkGrey};
 `;
 
 export const List = styled.ul`
   flex: 1;
-`;
+  max-width: ${(props) => props.theme.maxWidth};
+  padding: 1rem;
+  width: 100%;
+  overflow-y: scroll;
+  
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
 
-export const ClearBtn = styled.button`
-  color: #eee;
-  font-family: inherit;
-  font-size: .9rem;
-  border-radius: 4px;
-  background-color: ${(props) => props.theme.notSoBlurple};
-  padding: 8px 4px;
-  border: 0;
-  transition: all .1s ease-in-out;
-  cursor: pointer;
-  &:hover {
-    opacity: .8;
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 50px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 50px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
   }
 `;
+
+

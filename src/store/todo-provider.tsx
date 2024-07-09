@@ -1,73 +1,74 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Todo, TodoContext } from "./todo-context";
+import { showToast } from "../utils/show-toast";
 
 interface TodoProviderProps {
   children: React.ReactNode;
 }
 
 export default function TodoProvider({ children }: TodoProviderProps) {
-  const [todosList, setTodosList] = useState<Todo[]>([
-    {
-      title: "Fazer compras",
-      description: "BLEGH",
-      completed: false,
-      id: "1",
-    },
-    {
-      title: "Estudar TypeScript",
-      description: "BLEGH",
-      completed: true,
-      id: "2",
-    },
-    {
-      title: "Limpar o quarto",
-      description: "BLEGH",
-      completed: false,
-      id: "3",
-    },
-    {
-      title: "Preparar o jantar",
-      description: "BLEGH",
-      completed: true,
-      id: "4",
-    },
-    {
-      title: "Ir ao banco",
-      description: "BLEGH",
-      completed: false,
-      id: "5",
-    },
-  ]);
+  const [todosList, setTodosList] = useState<Todo[]>(() => {
+    const storedData = localStorage.getItem("@todos");
+    return storedData ? (JSON.parse(storedData) as Todo[]) : [];
+  });
 
-  const editTodo = (id: string, text: string) => {
+  const fetchTodos = useCallback(async () => {
+    const data = await fetch("https://jsonplaceholder.typicode.com/todos");
+    const result: Todo[] = await data.json();
+    const todos = result.slice(0, 10);
+
+    setTodosList(todos);
+    storeTodos(todos);
+  }, []);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("@todos");
+    if (storedData) {
+      const todos = JSON.parse(storedData) as Todo[];
+      if (todos.length === 0) {
+        fetchTodos();
+      }
+    }
+  }, [fetchTodos]);
+
+  const storeTodos = (todos: Todo[]) => {
+    localStorage.setItem("@todos", JSON.stringify(todos));
+  };
+
+  const editTodo = (id: string, title: string) => {
     const updatedList = todosList.map((todo) => {
       if (todo.id === id) {
-        return { ...todo, task: text };
+        return { ...todo, title };
       }
       return todo;
     });
+
+    showToast({ text: "Tarefa atualizada com sucesso!", duration: 5000 });
     setTodosList(updatedList);
+    storeTodos(updatedList);
   };
 
-  const addTodo = (title: string, description: string) => {
+  const addTodo = (title: string) => {
     const updatedTodos = [
       ...todosList,
       {
         title,
-        description,
         completed: false,
         id: Math.random().toString(36).substring(2, 11),
       },
-    ]
-    setTodosList(updatedTodos);
+    ];
 
-    localStorage.setItem('@todos', JSON.stringify(updatedTodos));
+    setTodosList(updatedTodos);
+    storeTodos(updatedTodos);
+    showToast({ text: "Tarefa criada com sucesso!", duration: 5000 });
   };
 
   const deleteTodo = (id: string) => {
     const updatedList = todosList.filter((todo) => todo.id !== id);
 
     setTodosList(updatedList);
+    storeTodos(updatedList);
+    showToast({ text: "Tarefa removida com sucesso!", duration: 5000 });
   };
 
   const toggleTodo = (id: string) => {
@@ -79,6 +80,7 @@ export default function TodoProvider({ children }: TodoProviderProps) {
       return todo;
     });
     setTodosList(updatedList);
+    storeTodos(updatedList);
   };
 
   const clearCompleted = () => {
@@ -90,6 +92,8 @@ export default function TodoProvider({ children }: TodoProviderProps) {
     const updatedList = todosList.filter((todo) => !todo.completed);
 
     setTodosList(updatedList);
+    storeTodos(updatedList);
+    showToast({ text: "Tarefas removidas com sucesso!", duration: 5000 });
   };
 
   const todoContext = {

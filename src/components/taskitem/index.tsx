@@ -1,18 +1,19 @@
 import React from "react";
 import { useTodoContext, Todo } from "../../store/todo-context";
-import { Item, ItemText } from "./styles";
+import { Item, ItemText, Toggle, TrashButton } from "./styles";
+import { Link } from "react-router-dom";
 
 interface TodoProps {
   todo: Todo;
 }
 
-export const TaskItem = ({ todo }: TodoProps) => {
+export default function TaskItem({ todo }: TodoProps) {
   const { deleteTodo, toggleTodo } = useTodoContext();
 
   return (
     <Item key={todo.id}>
       <div>
-        <button onClick={() => toggleTodo(todo.id)}>
+        <Toggle onClick={() => toggleTodo(todo.id)}>
           {todo.completed ? (
             <span>
               <i className="fa-regular fa-circle-check"></i>
@@ -22,21 +23,22 @@ export const TaskItem = ({ todo }: TodoProps) => {
               <i className="fa-regular fa-clock"></i>
             </span>
           )}
-        </button>
+        </Toggle>
         <ItemText $isCompleted={todo.completed}>{todo.title}</ItemText>
       </div>
-      <div>
-        {/* TODO: navegar para página da tarefa */}
-        <button>Editar</button>
-        <button
+      <div className="btn-group">
+        <Link to={`/task/${todo.id}`} state={todo}>
+          <i className="fa-solid fa-pen-to-square"></i>
+        </Link>
+        <TrashButton
           aria-label="Delete task"
           onClick={() => {
             deleteTodo(todo.id);
           }}
         >
-          Deletar
-        </button>
+          <i className="fa-solid fa-trash"></i>
+        </TrashButton>
       </div>
     </Item>
   );
-};
+}
